@@ -1,0 +1,1 @@
+export const predictionConfig={modelVersion:'soccer-poisson-v1',homeAdvantageGoals:0.22,ratingGoalScale:0.0035,injuryGoalPenaltyCap:0.35,restDayGoalImpact:0.04,maxAdjustmentGoals:0.55,poissonMaxGoals:8,defaultSeed:424242};

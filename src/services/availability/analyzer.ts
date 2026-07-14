@@ -1,0 +1,4 @@
+import type { Evidence, PlayerAvailability } from '@/domain/schemas';import { demoPlayers } from '@/services/sports-data/demo';
+export function analyzeAvailability(teamId:string,evidence:Evidence[]):PlayerAvailability[]{return demoPlayers(teamId).map(p=>{const hasEvidence=p.evidenceSourceIds.every(id=>evidence.some(e=>e.sourceId===id));return hasEvidence?p:{...p,status:'unknown',startProbability:40,appearanceProbability:55,reasons:['출처가 부족하여 unknown 처리']}})}
+export function rejectUnsourcedClaims(evidence:Evidence[]){return evidence.filter(e=>e.sourceId&&e.confidence>=0.5)}
+export function detectConflicts(evidence:Evidence[]){const unavailable=evidence.filter(e=>/결장|doubtful|불투명/.test(e.claim));const available=evidence.filter(e=>/출전 가능|available/.test(e.claim));return unavailable.length&&available.length?[{id:'conflict-availability',description:'출전 가능성과 결장 가능성 정보가 충돌합니다.',sourceIds:[...unavailable,...available].map(e=>e.sourceId),severity:'medium' as const}]:[]}

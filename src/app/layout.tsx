@@ -1,0 +1,1 @@
+import './globals.css';import type { Metadata } from 'next';export const metadata:Metadata={title:'스포츠 경기 사전 분석 MVP',description:'Demo/실제 웹 리서치 지원 승리 확률 예측'};export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="ko"><body>{children}</body></html>}
