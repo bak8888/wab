@@ -1,0 +1,14 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+model Team { id String @id name String normalizedName String aliases TeamAlias[] players Player[] }
+model TeamAlias { id String @id @default(cuid()) alias String teamId String team Team @relation(fields:[teamId], references:[id]) }
+model Player { id String @id name String position String teamId String team Team @relation(fields:[teamId], references:[id]) }
+model Match { id String @id sport String league String? season String? homeTeamId String awayTeamId String kickoffAt DateTime? venue String? status String }
+model Analysis { id String @id matchId String status String result Json createdAt DateTime @default(now()) updatedAt DateTime @updatedAt runs AnalysisRun[] }
+model AnalysisRun { id String @id @default(cuid()) analysisId String analysis Analysis @relation(fields:[analysisId], references:[id]) status String logs Json? createdAt DateTime @default(now()) }
+model Source { id String @id title String publisher String url String reliabilityTier Int claims Evidence[] }
+model Evidence { id String @id sourceId String source Source @relation(fields:[sourceId], references:[id]) claim String category String confidence Float }
+model PlayerAvailability { id String @id playerId String analysisId String status String startProbability Float appearanceProbability Float evidenceSourceIds Json }
+model Prediction { id String @id analysisId String algorithm String modelVersion String featureVector Json baseProbabilities Json adjustments Json finalProbabilities Json simulationCount Int? randomSeed Int? createdAt DateTime @default(now()) }
+model PredictionFactor { id String @id predictionId String name String impact Float sourceIds Json description String }
+model DataConflict { id String @id analysisId String description String sourceIds Json severity String }

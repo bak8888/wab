@@ -1,0 +1,2 @@
+import { NextRequest, NextResponse } from 'next/server';import { resolveMatch } from '@/services/match-resolution/resolver';import { apiRateLimit } from '@/lib/security';
+export async function POST(req:NextRequest){if(!apiRateLimit.check(req.headers.get('x-forwarded-for')||'local'))return NextResponse.json({error:'RATE_LIMIT'}, {status:429});try{return NextResponse.json(resolveMatch(await req.json()))}catch(e){return NextResponse.json({error:e instanceof Error?e.message:'BAD_REQUEST'}, {status:400})}}

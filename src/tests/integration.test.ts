@@ -1,0 +1,2 @@
+import { describe,it,expect } from 'vitest';import { createAnalysis, getAnalysis } from '@/services/analysis/service';
+describe('analysis flow',()=>{it('creates and reads an analysis',async()=>{const a=await createAnalysis('ars-che-2026-07-20',true);expect(a.status).toBe('completed');expect(getAnalysis(a.id)?.id).toBe(a.id);expect(a.sources.length).toBeGreaterThan(0)});it('surfaces failures for unknown match',async()=>{await expect(createAnalysis('unknown',true)).rejects.toThrow('MATCH_NOT_FOUND')})});

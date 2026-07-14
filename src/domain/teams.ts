@@ -1,0 +1,4 @@
+import type { TeamSummary } from './schemas';
+export const teams:TeamSummary[]=[{id:'arsenal',name:'아스널',normalizedName:'arsenal',aliases:['아스널','Arsenal','ARS']},{id:'chelsea',name:'첼시',normalizedName:'chelsea',aliases:['첼시','Chelsea','CHE']},{id:'man-utd',name:'맨체스터 유나이티드',normalizedName:'manchester united',aliases:['맨유','맨체스터 유나이티드','Manchester United','Man United','MUFC']},{id:'lakers',name:'LA 레이커스',normalizedName:'la lakers',aliases:['LA 레이커스','Los Angeles Lakers','Lakers']},{id:'celtics',name:'보스턴 셀틱스',normalizedName:'boston celtics',aliases:['보스턴 셀틱스','Boston Celtics','Celtics']}];
+export function normalizeName(s:string){return s.toLowerCase().replace(/[^a-z0-9가-힣]/g,'').trim()}
+export function findTeam(input:string){const n=normalizeName(input); return teams.find(t=>[t.name,t.normalizedName,...t.aliases].some(a=>normalizeName(a)===n))}
